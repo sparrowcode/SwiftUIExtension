@@ -1,5 +1,6 @@
 import SwiftUI
 
+@available (iOS 15.0, iOSApplicationExtension 15.0, watchOS 8.0, *)
 public struct BlurFadeView: View {
     
     let style: any ShapeStyle
@@ -14,17 +15,15 @@ public struct BlurFadeView: View {
     }
     
     public var body: some View {
-        if #available(iOS 15.0, iOSApplicationExtension 15.0, *) {
-            Rectangle()
-                .fill(AnyShapeStyle(style))
-                .frame(height: height)
-                .mask {
-                    LinearGradient(
-                        colors: [.clear, .black, .black],
-                        startPoint: startPoint,
-                        endPoint: startPoint == .top ? .bottom : .top
-                    )
-                }
-        }
+        Rectangle()
+            .fill(AnyShapeStyle(style))
+            .frame(height: height)
+            .mask {
+                LinearGradient(
+                    colors: [.clear, .black, .black],
+                    startPoint: startPoint,
+                    endPoint: startPoint == .top ? .bottom : .top
+                )
+            }
     }
 }

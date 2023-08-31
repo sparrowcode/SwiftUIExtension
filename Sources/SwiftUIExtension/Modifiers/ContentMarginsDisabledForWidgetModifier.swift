@@ -1,6 +1,7 @@
 import SwiftUI
 import WidgetKit
 
+@available(watchOS 9.0, *)
 extension WidgetConfiguration {
     
     public func contentMarginsSafeDisabled() -> some WidgetConfiguration {

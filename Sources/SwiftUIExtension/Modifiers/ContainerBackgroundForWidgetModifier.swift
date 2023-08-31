@@ -13,10 +13,9 @@ struct ContainerBackgroundForWidgetModifier<Background>: ViewModifier where Back
     let background: () -> Background
     
     func body(content: Content) -> some View {
-        if #available(iOS 17.0, iOSApplicationExtension 17.0, watchOSApplicationExtension 10.0, *) {
+        if #available(iOS 17.0, iOSApplicationExtension 17.0, watchOS 10.0, watchOSApplicationExtension 10.0, *) {
             content
                 .containerBackground(for: .widget) {
-                    //AccessoryWidgetBackground()
                     background()
                 }
         } else {
