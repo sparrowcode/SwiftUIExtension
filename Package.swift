@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import PackageDescription
 
@@ -14,13 +14,13 @@ let package = Package(
         )
     ],
     dependencies: [
-        //.package(url: "https://github.com/sparrowcode/SwiftBoost", .upToNextMajor(from: "4.0.3"))
+        .package(url: "https://github.com/sparrowcode/SwiftBoost", .upToNextMajor(from: "4.0.3"))
     ],
     targets: [
         .target(
             name: "SwiftUIExtension",
             dependencies: [
-                //.product(name: "SwiftBoost", package: "SwiftBoost")
+                .product(name: "SwiftBoost", package: "SwiftBoost")
             ],
             swiftSettings: [
                 .define("SWIFTUIEXTENSION_SPM")
