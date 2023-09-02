@@ -1,5 +1,4 @@
 import SwiftUI
-import WidgetKit
 
 extension View {
     

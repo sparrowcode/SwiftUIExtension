@@ -11,9 +11,3 @@ public enum Spaces {
     public static var default_half: CGFloat { self.default / 2 }
     public static var default_double: CGFloat { self.default * 2 }
 }
-
-public enum Margins {
-    
-    public static var full_screen_horizontal: CGFloat { Spaces.default }
-    public static var modal_screen_horizontal: CGFloat { Spaces.step * 5 }
-}

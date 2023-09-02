@@ -3,12 +3,12 @@ import WidgetKit
 
 extension View {
     
-    public func containerBackgroundForWidget<Background>(background: @escaping () -> Background) -> some View where Background: View {
-        modifier(ContainerBackgroundForWidgetModifier(background: background))
+    public func containerBackgroundForWidgetCompability<Background>(background: @escaping () -> Background) -> some View where Background: View {
+        modifier(ContainerBackgroundForWidgetCompabilityModifier(background: background))
     }
 }
 
-struct ContainerBackgroundForWidgetModifier<Background>: ViewModifier where Background: View {
+struct ContainerBackgroundForWidgetCompabilityModifier<Background>: ViewModifier where Background: View {
     
     let background: () -> Background
     
