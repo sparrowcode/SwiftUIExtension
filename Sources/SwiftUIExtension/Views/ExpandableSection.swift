@@ -17,7 +17,7 @@ public struct ExpandableSection<Content: View, Header: View>: View {
     
     public var body: some View {
         if isExpandable {
-            if #available(iOS 17.0, macOS 14.0, *) {
+            if #available(iOS 17.0, macOS 14.0, watchOS 10.0, *) {
                 Section(isExpanded: $isExpanded) {
                     content()
                 } header: {
