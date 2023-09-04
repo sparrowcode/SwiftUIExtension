@@ -1,5 +1,6 @@
 import SwiftUI
 
+if os(iOS)
 public struct AdaptiveStack<Content: View>: View {
     
     @State private var orientation = UIDeviceOrientation.unknown
@@ -29,7 +30,6 @@ public struct AdaptiveStack<Content: View>: View {
     }
 }
 
-#if !os(visionOS)
 struct DetectOrientation: ViewModifier {
     
     @Binding var orientation: UIDeviceOrientation
