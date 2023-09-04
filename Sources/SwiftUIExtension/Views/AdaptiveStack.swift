@@ -1,6 +1,6 @@
 import SwiftUI
 
-if os(iOS)
+#if os(iOS)
 public struct AdaptiveStack<Content: View>: View {
     
     @State private var orientation = UIDeviceOrientation.unknown
