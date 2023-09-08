@@ -1,6 +1,6 @@
 import SwiftUI
 
-@available(iOS 15.0, iOSApplicationExtension 15.0, watchOS 8.0, *)
+@available(iOS 15.0, iOSApplicationExtension 15.0, watchOS 8.0, macOS 12.0, *)
 public struct FadeBlurView: View {
     
     let style: any ShapeStyle
