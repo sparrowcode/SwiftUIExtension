@@ -9,6 +9,10 @@ extension View {
     public func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
         self.modifier(DeviceRotationViewModifier(action: action))
     }
+
+    public func containerBackgroundForWidget<Background>(background: @escaping () -> Background) -> some View where Background: View {
+        modifier(ContainerBackgroundForWidgetModifier(background: background))
+    }
 }
 
 struct DeviceRotationViewModifier: ViewModifier {
@@ -21,5 +25,25 @@ struct DeviceRotationViewModifier: ViewModifier {
             .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
                 action(UIDevice.current.orientation)
             }
+    }
+}
+
+struct ContainerBackgroundForWidgetModifier<Background>: ViewModifier where Background: View {
+    
+    let background: () -> Background
+    
+    func body(content: Content) -> some View {
+        if #available(iOS 17.0, iOSApplicationExtension 17.0, watchOS 10.0, watchOSApplicationExtension 10.0, macOS 14.0, *) {
+            content
+                .containerBackground(for: .widget) {
+                    background()
+                }
+        } else {
+            ZStack {
+                background()
+                content
+                    .padding()
+            }
+        }
     }
 }
