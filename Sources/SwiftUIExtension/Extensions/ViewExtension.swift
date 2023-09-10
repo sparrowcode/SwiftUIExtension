@@ -6,25 +6,8 @@ extension View {
         self.onReceive(NotificationCenter.default.publisher(for: name), perform: action)
     }
     
-    public func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
-        self.modifier(DeviceRotationViewModifier(action: action))
-    }
-
-    public func containerBackgroundForWidget<Background>(background: @escaping () -> Background) -> some View where Background: View {
+    public func containerBackgroundForWidget<Background>(@ViewBuilder background: @escaping () -> Background) -> some View where Background: View {
         modifier(ContainerBackgroundForWidgetModifier(background: background))
-    }
-}
-
-struct DeviceRotationViewModifier: ViewModifier {
-    
-    let action: (UIDeviceOrientation) -> Void
-    
-    func body(content: Content) -> some View {
-        content
-            .onAppear()
-            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-                action(UIDevice.current.orientation)
-            }
     }
 }
 
@@ -47,3 +30,27 @@ struct ContainerBackgroundForWidgetModifier<Background>: ViewModifier where Back
         }
     }
 }
+
+// MARK: - Only iOS
+
+#if os(iOS)
+extension View {
+    
+    public func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+        self.modifier(DeviceRotationViewModifier(action: action))
+    }
+}
+
+struct DeviceRotationViewModifier: ViewModifier {
+    
+    let action: (UIDeviceOrientation) -> Void
+    
+    func body(content: Content) -> some View {
+        content
+            .onAppear()
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+                action(UIDevice.current.orientation)
+            }
+    }
+}
+#endif
