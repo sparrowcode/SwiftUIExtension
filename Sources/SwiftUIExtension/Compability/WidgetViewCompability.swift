@@ -1,4 +1,6 @@
 import SwiftUI
+
+#if canImport(WidgetKit)
 import WidgetKit
 
 extension View {
@@ -47,3 +49,5 @@ struct ContainerBackgroundForWidgetModifier<Background>: ViewModifier where Back
         }
     }
 }
+
+#endif

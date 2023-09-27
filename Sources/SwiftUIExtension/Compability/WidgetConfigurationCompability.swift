@@ -1,4 +1,6 @@
 import SwiftUI
+
+#if canImport(WidgetKit)
 import WidgetKit
 
 @available(watchOS 9.0, macOS 11.0, *)
@@ -12,3 +14,5 @@ extension WidgetConfiguration {
         }
     }
 }
+#endif
+
