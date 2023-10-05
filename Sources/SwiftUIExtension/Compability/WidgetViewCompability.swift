@@ -7,7 +7,7 @@ extension EnvironmentValues {
     
     public var widgetContentMarginsCompability: EdgeInsets {
         get {
-            if #available(iOS 17.0, *) {
+            if #available(iOS 17.0, macOS 14.0, *) {
                 return self.widgetContentMargins
             } else {
                 return .init(top: 16, leading: 16, bottom: 16, trailing: 16)
