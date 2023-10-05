@@ -3,6 +3,19 @@ import SwiftUI
 #if canImport(WidgetKit)
 import WidgetKit
 
+extension EnvironmentValues {
+    
+    public var widgetContentMarginsCompability: EdgeInsets {
+        get {
+            if #available(iOS 17.0, *) {
+                return self.widgetContentMargins
+            } else {
+                return .init(top: 16, leading: 16, bottom: 16, trailing: 16)
+            }
+        }
+    }
+}
+
 extension View {
     
     public func containerBackgroundForWidgetCompability<Background>(background: @escaping () -> Background) -> some View where Background: View {
