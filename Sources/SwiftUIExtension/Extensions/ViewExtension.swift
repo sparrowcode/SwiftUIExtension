@@ -2,6 +2,17 @@ import SwiftUI
 
 extension View {
     
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
+
+extension View {
+    
     public func onReceive(notification name: Notification.Name, perform action: @escaping (NotificationCenter.Publisher.Output) -> Void) -> some View {
         self.onReceive(NotificationCenter.default.publisher(for: name), perform: action)
     }
