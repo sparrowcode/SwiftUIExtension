@@ -1,5 +1,8 @@
 # SwiftUIExtension
 
+Collection of SwiftUI extensions to boost development process.
+
+
 ### Community
 
 <p float="left">
