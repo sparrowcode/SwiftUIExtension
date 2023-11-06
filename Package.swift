@@ -16,7 +16,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/sparrowcode/SwiftBoost", .upToNextMajor(from: "4.0.3"))
+        .package(url: "https://github.com/sparrowcode/SwiftBoost", .upToNextMajor(from: "4.0.8"))
     ],
     targets: [
         .target(
