@@ -2,6 +2,22 @@ import SwiftUI
 
 extension View {
     
+    public func scrollTargetBehaviorCompability() -> some View {
+        if #available(iOS 17.0, watchOS 10.0, macOS 14.0, *) {
+            return self.scrollTargetBehavior(.viewAligned)
+        } else {
+            return self
+        }
+    }
+    
+    public func baselineOffsetCompability(_ offeset: CGFloat) -> some View {
+        if #available(iOS 16.0, watchOS 9.0, macOS 13.0, *) {
+            return self.baselineOffset(offeset)
+        } else {
+            return self
+        }
+    }
+    
     public func fontWeightCompability(_ weight: Font.Weight) -> some View {
         if #available(iOS 16.0, watchOS 9.0, macOS 13.0, *) {
             return self.fontWeight(weight)
