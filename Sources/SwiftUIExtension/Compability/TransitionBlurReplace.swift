@@ -10,7 +10,7 @@ extension View {
 struct TransitionBlurReplace: ViewModifier {
     
     func body(content: Content) -> some View {
-        if #available(iOS 18.0, *) {
+        if #available(iOS 18.0, watchOS 10.0, *) {
             content
                 .transition(.blurReplace.combined(with: .opacity))
         } else {

@@ -1,4 +1,6 @@
+#if canImport(SwiftUI) && canImport(UIKit) && os(iOS)
 import SwiftUI
+import UIKit
 
 public struct NavigationBarCloseButton: UIViewRepresentable {
     
@@ -41,4 +43,4 @@ public struct NavigationBarCloseButton: UIViewRepresentable {
         }
     }
 }
-
+#endif

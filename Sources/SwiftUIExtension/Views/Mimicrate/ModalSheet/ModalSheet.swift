@@ -1,3 +1,4 @@
+#if os(iOS)
 import SwiftUI
 
 extension View {
@@ -21,4 +22,4 @@ extension View {
         return self.modifier(sheet)
     }
 }
-
+#endif

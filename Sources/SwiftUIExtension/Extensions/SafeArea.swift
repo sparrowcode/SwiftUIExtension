@@ -15,6 +15,7 @@ extension View {
 
 // MARK: - Environment
 
+#if os(iOS)
 extension EnvironmentValues {
     
     public var safeAreaInsets: EdgeInsets {
@@ -25,7 +26,8 @@ extension EnvironmentValues {
 private struct SafeAreaInsetsKey: EnvironmentKey {
     
     static var defaultValue: EdgeInsets {
-        (UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets ?? .zero).insets
+        (UIApplication.shared.rootController?.view.window?.safeAreaInsets ?? .zero).insets
+        //(UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets ?? .zero).insets
     }
 }
 
@@ -35,3 +37,4 @@ private extension UIEdgeInsets {
         EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
     }
 }
+#endif

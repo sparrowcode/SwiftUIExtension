@@ -6,7 +6,7 @@ let package = Package(
     name: "SwiftUIExtension",
     platforms: [
         .iOS(.v15), 
-        .watchOS(.v6),
+        .watchOS(.v8),
         .macOS(.v10_15)
     ],
     products: [

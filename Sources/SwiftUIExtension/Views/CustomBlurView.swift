@@ -1,3 +1,4 @@
+#if canImport(SwiftUI) && canImport(UIKit) && os(iOS)
 import UIKit
 import SwiftUI
 
@@ -207,3 +208,4 @@ private extension UIVisualEffect {
         }
     }
 }
+#endif

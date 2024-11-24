@@ -89,6 +89,8 @@ public struct NativeSection<Content: View, Detail: View>: View {
         return Spaces.default_less
         #elseif os(visionOS)
         return Spaces.step
+        #else
+        return 0
         #endif
     }
 }

@@ -1,3 +1,4 @@
+#if os(iOS)
 import SwiftUI
 import SwiftBoost
 
@@ -129,3 +130,4 @@ struct ModalSheetModifier<ModalContent: View, Selection: Hashable>: ViewModifier
     private var cornerRadius: CGFloat { UIScreen.main.displayCornerRadius - padding }
     private var presentDimissDuration: TimeInterval { 0.41 }
 }
+#endif
