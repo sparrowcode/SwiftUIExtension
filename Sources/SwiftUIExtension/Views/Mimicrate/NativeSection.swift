@@ -1,5 +1,4 @@
 import SwiftUI
-import SafeSFSymbols
 import SwiftUIIntrospect
 
 public struct NativeSection<Content: View, Detail: View>: View {
@@ -37,7 +36,7 @@ public struct NativeSection<Content: View, Detail: View>: View {
                                     .foregroundColor(.primary)
                                     .font(.title2)
                                     .fontWeightCompability(.bold)
-                                Image(.chevron.right)
+                                Image("chevron.right")
                                     .foregroundColor(.secondary)
                                     .font(.footnote)
                                     .fontWeightCompability(.heavy)

@@ -4,7 +4,7 @@ import SwiftUI
 extension Image {
     
     public static func load(url: URL, completion: @escaping (Image?) -> Void) {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .default).async {
             if let data = try? Data(contentsOf: url) {
                 
                 #if canImport(UIKit)
