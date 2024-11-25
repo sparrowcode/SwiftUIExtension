@@ -62,17 +62,19 @@ struct ModalSheetModifier<ModalContent: View, Selection: Hashable>: ViewModifier
                             }
                     }
                     .background {
-                        Color.white
+                        Color(uiColor: .secondarySystemGroupedBackground)
                     }
                     .clipShape(.rect(cornerRadius: cornerRadius))
                     .shadow(color: .black.opacity(0.12), radius: 6, x: .zero, y: 6)
                     .shadow(color: .black.opacity(0.15), radius: 16, x: .zero, y: 12)
                     .overlay {
+                        let color = Color(uiColor: .tertiarySystemGroupedBackground)
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .strokeBorder(.secondary.opacity(0.5), lineWidth: 1)
+                            .strokeBorder(color, lineWidth: 1)
                     }
                     .padding(.horizontal, padding)
                     .padding(.bottom, padding)
+                    .frame(maxWidth: 440)
                     .offset(y: calculateDragOffset)
                     .gesture(
                         DragGesture()
