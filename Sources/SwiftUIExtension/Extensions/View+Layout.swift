@@ -6,11 +6,11 @@ extension View {
         modifier(HorizontalSystemPadding(paddingView: view))
     }
     
-    public func readableMargins() -> some View {
+    /*public func readableMargins() -> some View {
         self
             .padding(.horizontal)
             .frame(maxWidth: 414)
-    }
+    }*/
 }
 
 public struct HorizontalSystemPadding: ViewModifier {

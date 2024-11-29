@@ -5,6 +5,7 @@ extension View {
     /**
      Default value for `safeAreaInset` none zero — this wrapper drop all spaces.
      */
+    @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
     public func safeAreaInsetNoneSpaced<Content: View>(edge: VerticalEdge, @ViewBuilder content: () -> Content) -> some View {
         self
             .safeAreaInset(edge: edge, spacing: .zero) {

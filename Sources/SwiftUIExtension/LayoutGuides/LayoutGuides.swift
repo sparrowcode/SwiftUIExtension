@@ -1,119 +1,104 @@
+#if os(iOS) || os(tvOS)
 import SwiftUI
 
 extension View {
     
-    public func fitToReadableContentWidth(alignment: Alignment = .center) -> some View {
-        self.modifier(FitLayoutGuidesWidth(alignment: alignment, kind: .readableContent))
-    }
-    
-    public func fitToLayoutMarginsWidth(alignment: Alignment = .center) -> some View {
-        self.modifier(FitLayoutGuidesWidth(alignment: alignment, kind: .layoutMargins))
-    }
-    
-    public func measureLayoutGuides() -> some View {
-        self.modifier(LayoutGuidesModifier())
+    public func fitGuide(_ guide: LayoutGuide, padding: LayoutPadding = .view) -> some View {
+        self.modifier(FitGuide(with: guide, to: padding))
     }
 }
 
-public struct WithLayoutMargins<Content>: View where Content: View {
+public enum LayoutGuide {
     
-    let content: (EdgeInsets) -> Content
+    case layoutMargings
+    case readableMargins
+}
+
+public enum LayoutPadding {
     
-    public init(@ViewBuilder content: @escaping (EdgeInsets) -> Content) {
-        self.content = content
-    }
-    
-    public init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = { _ in content() }
-    }
-    
-    public var body: some View {
-        InsetContent(content: content)
-            .measureLayoutGuides()
-    }
-    
-    private struct InsetContent: View {
-        
-        let content: (EdgeInsets) -> Content
-        
-        @Environment(\.layoutMarginsInsets) var layoutMarginsInsets
-        
-        var body: some View {
-            content(layoutMarginsInsets)
-        }
-    }
+    case scroll
+    case view
 }
 
 // MARK: - Private
 
-internal struct FitLayoutGuidesWidth: ViewModifier {
+internal struct FitGuide: ViewModifier {
     
-    enum Kind {
-        case layoutMargins
-        case readableContent
+    @State var layoutMargins: EdgeInsets = .init()
+    @State var readableMargins: EdgeInsets = .init()
+    
+    private let guide: LayoutGuide
+    private let padding: LayoutPadding
+    
+    init(with guide: LayoutGuide, to padding: LayoutPadding) {
+        self.guide = guide
+        self.padding = padding
     }
-    
-    let alignment: Alignment
-    let kind: Kind
     
     func body(content: Content) -> some View {
-        switch kind {
-        case .layoutMargins:
-            content.modifier(InsetLayoutMargins(alignment: alignment))
-                .measureLayoutGuides()
-        case .readableContent:
-            content.modifier(InsetReadableContent(alignment: alignment))
-                .measureLayoutGuides()
-        }
-    }
-    
-    private struct InsetReadableContent: ViewModifier {
-        
-        let alignment: Alignment
-        @Environment(\.readableContentInsets) var readableContentInsets
-        
-        func body(content: Content) -> some View {
-            content
-                .frame(maxWidth: .infinity, alignment: alignment)
-                .padding(.leading, readableContentInsets.leading)
-                .padding(.trailing, readableContentInsets.trailing)
-        }
-    }
-    
-    private struct InsetLayoutMargins: ViewModifier {
-        
-        let alignment: Alignment
-        @Environment(\.layoutMarginsInsets) var layoutMarginsInsets
-        
-        func body(content: Content) -> some View {
-            content
-                .frame(maxWidth: .infinity, alignment: alignment)
-                .padding(.leading, layoutMarginsInsets.leading)
-                .padding(.trailing, layoutMarginsInsets.trailing)
+        switch guide {
+        case .layoutMargings:
+            
+            switch padding {
+            case .scroll:
+                if #available(iOS 17.0, *) {
+                    content
+                        .background(
+                            LayoutGuidesObserverView(
+                                layoutMarginsDidChanged: {
+                                    layoutMargins = $0
+                                }
+                            )
+                        )
+                        .contentMargins(.leading, layoutMargins.leading, for: .scrollContent)
+                        .contentMargins(.trailing, layoutMargins.trailing, for: .scrollContent)
+                } else {
+                    content
+                }
+            case .view:
+                content
+                    .background(
+                        LayoutGuidesObserverView(
+                            layoutMarginsDidChanged: {
+                                layoutMargins = $0
+                            }
+                        )
+                    )
+                    .padding(.leading, layoutMargins.leading)
+                    .padding(.trailing, layoutMargins.trailing)
+            }
+            
+        case .readableMargins:
+            
+            switch padding {
+            case .scroll:
+                if #available(iOS 17.0, *) {
+                    content
+                        .background(
+                            LayoutGuidesObserverView(
+                                readableMarginsDidChanged: {
+                                    readableMargins = $0
+                                }
+                            )
+                        )
+                        .contentMargins(.leading, readableMargins.leading, for: .scrollContent)
+                        .contentMargins(.trailing, readableMargins.trailing, for: .scrollContent)
+                } else {
+                    content
+                }
+            case .view:
+                content
+                    .background(
+                        LayoutGuidesObserverView(
+                            readableMarginsDidChanged: {
+                                readableMargins = $0
+                            }
+                        )
+                    )
+                    .padding(.leading, readableMargins.leading)
+                    .padding(.trailing, readableMargins.trailing)
+            }
         }
     }
 }
-
-internal struct LayoutGuidesModifier: ViewModifier {
-    
-    @State var layoutMarginsInsets: EdgeInsets = .init()
-    @State var readableContentInsets: EdgeInsets = .init()
-    
-    func body(content: Content) -> some View {
-        content
-            #if os(iOS) || os(tvOS)
-            .environment(\.layoutMarginsInsets, layoutMarginsInsets)
-            .environment(\.readableContentInsets, readableContentInsets)
-            .background(
-                LayoutGuidesObserverView(
-                    onLayoutMarginsGuideChange: {
-                        layoutMarginsInsets = $0
-                    },
-                    onReadableContentGuideChange: {
-                        readableContentInsets = $0
-                    })
-            )
-            #endif
-    }
-}
-
+#endif

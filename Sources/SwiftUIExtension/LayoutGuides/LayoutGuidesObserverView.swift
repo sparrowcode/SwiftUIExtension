@@ -1,91 +1,75 @@
 #if os(iOS) || os(tvOS)
-import UIKit
 import SwiftUI
 
-struct LayoutGuidesObserverView: UIViewRepresentable {
+internal struct LayoutGuidesObserverView: UIViewRepresentable {
     
-    let onLayoutMarginsGuideChange: (EdgeInsets) -> Void
-    let onReadableContentGuideChange: (EdgeInsets) -> Void
+    var layoutMarginsDidChanged: ((EdgeInsets) -> Void)? = nil
+    var readableMarginsDidChanged: ((EdgeInsets) -> Void)? = nil
+    
+    init(
+        layoutMarginsDidChanged: ((EdgeInsets) -> Void)? = nil,
+        readableMarginsDidChanged: ((EdgeInsets) -> Void)? = nil
+    ) {
+        self.layoutMarginsDidChanged = layoutMarginsDidChanged
+        self.readableMarginsDidChanged = readableMarginsDidChanged
+    }
     
     func makeUIView(context: Context) -> LayoutGuidesView {
         let uiView = LayoutGuidesView()
-        uiView.onLayoutMarginsGuideChange = onLayoutMarginsGuideChange
-        uiView.onReadableContentGuideChange = onReadableContentGuideChange
+        uiView.layoutMarginsDidChanged = layoutMarginsDidChanged
+        uiView.readableMarginsDidChanged = readableMarginsDidChanged
         return uiView
     }
     
     func updateUIView(_ uiView: LayoutGuidesView, context: Context) {
-        uiView.onLayoutMarginsGuideChange = onLayoutMarginsGuideChange
-        uiView.onReadableContentGuideChange = onReadableContentGuideChange
+        uiView.layoutMarginsDidChanged = layoutMarginsDidChanged
+        uiView.readableMarginsDidChanged = readableMarginsDidChanged
     }
     
     final class LayoutGuidesView: UIView {
-        var onLayoutMarginsGuideChange: (EdgeInsets) -> Void = { _ in }
-        var onReadableContentGuideChange: (EdgeInsets) -> Void = { _ in }
+        
+        var layoutMarginsDidChanged: ((EdgeInsets) -> Void)? = nil
+        var readableMarginsDidChanged: ((EdgeInsets) -> Void)? = nil
+        
+        var cachedLayoutMargins: EdgeInsets? = nil
+        var cachedReadableMargins: EdgeInsets? = nil
         
         override func layoutMarginsDidChange() {
             super.layoutMarginsDidChange()
-            updateLayoutMargins()
-            updateReadableContent()
+            update()
         }
         
         override func layoutSubviews() {
             super.layoutSubviews()
-            updateReadableContent()
+            update()
         }
         
-        // `layoutSubviews` doesn't seem late enough to retrieve an up-to-date `readableContentGuide`
-        // in some cases, like when toggling the sidebar in a NavigationSplitView on iPad.
-        // It seems that observing the `frame` is enough to fix this edge case, but a better
-        // heuristic would be preferable.
-        override var frame: CGRect {
-            didSet {
-                self.updateReadableContent()
-            }
-        }
-        
-        override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-            super.traitCollectionDidChange(previousTraitCollection)
-            if traitCollection.layoutDirection != previousTraitCollection?.layoutDirection {
-                updateReadableContent()
-            }
-        }
-        
-        var previousLayoutMargins: EdgeInsets? = nil
-        func updateLayoutMargins() {
-            let edgeInsets = EdgeInsets(
-                top: directionalLayoutMargins.top,
-                leading: directionalLayoutMargins.leading,
-                bottom: directionalLayoutMargins.bottom,
-                trailing: directionalLayoutMargins.trailing
-            )
-            guard previousLayoutMargins != edgeInsets else { return }
-            onLayoutMarginsGuideChange(edgeInsets)
-            previousLayoutMargins = edgeInsets
-        }
-        
-        var previousReadableContentGuide: EdgeInsets? = nil
-        func updateReadableContent() {
-            let isRightToLeft = traitCollection.layoutDirection == .rightToLeft
-            let layoutFrame = readableContentGuide.layoutFrame
+        private func update() {
+            guard let viewController = self.viewController else{ return }
+            let safeAreaInsets = viewController.view.safeAreaInsets.edgeInsets
             
-            let readableContentInsets =
-            UIEdgeInsets(
-                top: layoutFrame.minY - bounds.minY,
-                left: layoutFrame.minX - bounds.minX,
-                bottom: -(layoutFrame.maxY - bounds.maxY),
-                right: -(layoutFrame.maxX - bounds.maxX)
-            )
-            let edgeInsets = EdgeInsets(
-                top: readableContentInsets.top,
-                leading: isRightToLeft ? readableContentInsets.right : readableContentInsets.left,
-                bottom: readableContentInsets.bottom,
-                trailing: isRightToLeft ? readableContentInsets.left : readableContentInsets.right
-            )
-            guard previousReadableContentGuide != edgeInsets else { return }
-            onReadableContentGuideChange(edgeInsets)
-            previousReadableContentGuide = edgeInsets
+            let layout = viewController.view.layoutMargins.edgeInsets
+            let correctedLayout = layout - safeAreaInsets
+            
+            if cachedLayoutMargins != correctedLayout {
+                cachedLayoutMargins = correctedLayout
+                layoutMarginsDidChanged?(correctedLayout)
+            }
+            
+            let readable = viewController.view.readableMargins.edgeInsets
+            let correctedReadable = readable - safeAreaInsets
+            if cachedReadableMargins != correctedReadable {
+                cachedReadableMargins = correctedReadable
+                readableMarginsDidChanged?(correctedReadable)
+            }
         }
+    }
+}
+
+extension UIEdgeInsets {
+    
+    var edgeInsets: EdgeInsets {
+        .init(top: self.top, leading: self.left, bottom: self.bottom, trailing: self.right)
     }
 }
 #endif

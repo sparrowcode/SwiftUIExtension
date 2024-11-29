@@ -31,18 +31,20 @@ public struct NativeSection<Content: View, Detail: View>: View {
                                 .navigationTitle(title)
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
-                            HStack(alignment: .firstTextBaseline, spacing: Spaces.step) {
-                                Text(title)
-                                    .foregroundColor(.primary)
-                                    .font(.title2)
-                                    .fontWeightCompability(.bold)
-                                Image("chevron.right")
-                                    .foregroundColor(.secondary)
-                                    .font(.footnote)
-                                    .fontWeightCompability(.heavy)
+                            VStack {
+                                HStack(alignment: .firstTextBaseline, spacing: Spaces.step) {
+                                    Text(title)
+                                        .foregroundColor(.primary)
+                                        .font(.title2)
+                                        .fontWeightCompability(.bold)
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.secondary)
+                                        .font(.footnote)
+                                        .fontWeightCompability(.heavy)
+                                }
+                                .baselineOffsetCompability(-1.5)
+                                //.padding(.leading, Spaces.default)
                             }
-                            .baselineOffsetCompability(-1)
-                            .padding(.leading, Spaces.default)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .buttonStyle(.plain)
@@ -72,12 +74,15 @@ public struct NativeSection<Content: View, Detail: View>: View {
                         }
                         #endif
                     } else {
-                        Text(title)
-                            .foregroundColor(.primary)
-                            .font(.title2)
-                            .fontWeightCompability(.bold)
-                            .padding(.leading, Spaces.default)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        VStack {
+                            Text(title)
+                                .foregroundColor(.primary)
+                                .font(.title2)
+                                .fontWeightCompability(.bold)
+                            //.padding(.leading, Spaces.default)
+                            //.frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
             }
