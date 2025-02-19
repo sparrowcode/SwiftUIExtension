@@ -1,8 +1,10 @@
 import SwiftUI
 
-extension View {
+#warning("todo to del")
+/*extension View {
     
     public func horizontalSystemPadding(to view: HorizontalSystemPadding.PaddingView) -> some View {
+        
         modifier(HorizontalSystemPadding(paddingView: view))
     }
     
@@ -35,7 +37,7 @@ public struct HorizontalSystemPadding: ViewModifier {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     public func body(content: Content) -> some View {
-        switch paddingView {
+        /*switch paddingView {
         case .scroll:
             if #available(iOS 17.0, macOS 14.0, watchOS 10.0, *) {
                 content
@@ -45,7 +47,8 @@ public struct HorizontalSystemPadding: ViewModifier {
             }
         case .view:
             content.padding(.horizontal, value)
-        }
+        }*/
+        content
     }
     
     public enum PaddingView {
@@ -54,3 +57,4 @@ public struct HorizontalSystemPadding: ViewModifier {
         case view
     }
 }
+*/

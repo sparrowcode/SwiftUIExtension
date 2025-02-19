@@ -21,7 +21,7 @@ public struct ModalHeaderView: View {
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(.accentColor)
-                .fontWeightCompability(.regular)
+                .font(.body.weight(.regular))
                 .frame(width: 52)
         }, title: title, body: body)
     }
@@ -35,8 +35,7 @@ public struct ModalHeaderView: View {
             
             VStack(spacing: 8) {
                 Text(titleText)
-                    .font(.title)
-                    .fontWeight(.semibold)
+                    .font(.title.weight(.semibold))
                     .foregroundStyle(.primary)
                 Text(bodyText)
                     .font(.subheadline)

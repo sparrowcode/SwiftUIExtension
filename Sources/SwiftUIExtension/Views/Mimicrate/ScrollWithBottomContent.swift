@@ -28,12 +28,12 @@ public struct ScrollWithBottomContent<Content: View, Bottom: View>: View {
                 .padding(.top, topFade ?? .zero)
                 .padding(.bottom, bottomFade ?? .zero)
         }
-        .horizontalSystemPadding(to: .scroll)
+        .fitGuide(.layoutMargings, padding: .scroll)
         .fade(top: topFade, bottom: bottomFade)
         .safeAreaInset(edge: .bottom) {
             bottom()
                 .padding(.bottom, Spaces.default_more)
-                .horizontalSystemPadding(to: .view)
+                .fitGuide(.layoutMargings)
         }
     }
 }

@@ -35,12 +35,10 @@ public struct NativeSection<Content: View, Detail: View>: View {
                                 HStack(alignment: .firstTextBaseline, spacing: Spaces.step) {
                                     Text(title)
                                         .foregroundColor(.primary)
-                                        .font(.title2)
-                                        .fontWeightCompability(.bold)
+                                        .font(.title2.weight(.bold))
                                     Image(systemName: "chevron.right")
                                         .foregroundColor(.secondary)
-                                        .font(.footnote)
-                                        .fontWeightCompability(.heavy)
+                                        .font(.footnote.weight(.heavy))
                                 }
                                 .baselineOffsetCompability(-1.5)
                                 //.padding(.leading, Spaces.default)
@@ -77,8 +75,7 @@ public struct NativeSection<Content: View, Detail: View>: View {
                         VStack {
                             Text(title)
                                 .foregroundColor(.primary)
-                                .font(.title2)
-                                .fontWeightCompability(.bold)
+                                .font(.title2.weight(.bold))
                             //.padding(.leading, Spaces.default)
                             //.frame(maxWidth: .infinity, alignment: .leading)
                         }
