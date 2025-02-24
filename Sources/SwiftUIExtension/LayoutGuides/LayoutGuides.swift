@@ -3,7 +3,7 @@ import SwiftUI
 
 extension View {
     
-    public func fitGuide(_ guide: LayoutGuide, padding: LayoutPadding = .view) -> some View {
+    public func fitGuide(_ guide: LayoutGuide, padding: LayoutPadding = LayoutPadding.view) -> some View {
         self.modifier(FitGuide(with: guide, to: padding))
     }
 }

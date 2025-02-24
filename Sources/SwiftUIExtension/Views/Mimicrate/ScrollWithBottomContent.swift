@@ -1,3 +1,4 @@
+#if os(iOS) || os(tvOS)
 import SwiftUI
 
 public struct ScrollWithBottomContent<Content: View, Bottom: View>: View {
@@ -37,4 +38,4 @@ public struct ScrollWithBottomContent<Content: View, Bottom: View>: View {
         }
     }
 }
-
+#endif
