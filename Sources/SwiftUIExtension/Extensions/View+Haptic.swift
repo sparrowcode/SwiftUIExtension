@@ -18,7 +18,7 @@ struct SensoryFeedbackModifier<T: Equatable>: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        if #available(iOS 17.0, *) {
+        if #available(iOS 17.0, watchOS 10.0, *) {
             content
                 .sensoryFeedback(.selection, trigger: trigger)
         } else {

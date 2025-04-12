@@ -33,9 +33,11 @@ public struct SelectableStack<Data, Content>: View where Data : RandomAccessColl
                     }
                 }
             }
+            #if os(iOS)
             .onChange(of: selectedElement) { _ in
                 UIFeedbackGenerator.impactOccurred(.light)
             }
+            #endif
         case .horizontal:
             EmptyView()
         }
