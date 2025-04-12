@@ -12,7 +12,7 @@ extension Image {
                 completion(Image(uiImage: songArtwork))
                 #endif
                 
-                #if canImport(AppKit)
+                #if canImport(AppKit) && !targetEnvironment(macCatalyst)
                 let songArtwork = NSImage(data: data) ?? NSImage()
                 completion(Image(nsImage: songArtwork))
                 #endif

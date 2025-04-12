@@ -4,16 +4,16 @@ public struct SelectableStack<Data, Content>: View where Data : RandomAccessColl
     
     private let alignment: Alignment
     private let space: CGFloat
-    private let data: Data
+    private let data: Data?
     private let content: (Data.Element, Bool) -> Content
     
-    @Binding private var selectedElement: Data.Element
+    @Binding private var selectedElement: Data.Element?
     
     public init(
         alignment: Alignment,
         space: CGFloat = Spaces.default_half,
-        data: Data,
-        selectedElement: Binding<Data.Element>,
+        data: Data?,
+        selectedElement: Binding<Data.Element?>,
         @ViewBuilder content: @escaping (Data.Element, Bool) -> Content
     ) {
         self.alignment = alignment
@@ -27,9 +27,14 @@ public struct SelectableStack<Data, Content>: View where Data : RandomAccessColl
         switch alignment {
         case .vertical:
             VStack(spacing: space) {
-                ForEach(data) { element in
-                    content(element, selectedElement == element)
+                if let data {
+                    ForEach(data) { element in
+                        content(element, selectedElement == element)
+                    }
                 }
+            }
+            .onChange(of: selectedElement) { _ in
+                UIFeedbackGenerator.impactOccurred(.light)
             }
         case .horizontal:
             EmptyView()
