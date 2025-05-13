@@ -46,7 +46,9 @@ extension View {
         if #available(iOS 17.0, watchOS 10.0, macOS 14.0, *) {
             return self.scrollClipDisabled(disabled)
         } else {
-            return self
+            return self.introspect(.scrollView, on: .iOS(.v15, .v16)) { scrollView in
+                    scrollView.clipsToBounds = false
+                }
         }
     }
     

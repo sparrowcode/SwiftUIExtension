@@ -1,5 +1,6 @@
 #if os(iOS) || os(tvOS)
 import SwiftUI
+import SwiftBoost
 
 internal struct LayoutGuidesObserverView: UIViewRepresentable {
     
@@ -31,8 +32,8 @@ internal struct LayoutGuidesObserverView: UIViewRepresentable {
         var layoutMarginsDidChanged: ((EdgeInsets) -> Void)? = nil
         var readableMarginsDidChanged: ((EdgeInsets) -> Void)? = nil
         
-        var cachedLayoutMargins: EdgeInsets? = nil
-        var cachedReadableMargins: EdgeInsets? = nil
+        var cachedLayoutMargins: EdgeInsets? = EdgeInsets()
+        var cachedReadableMargins: EdgeInsets? = EdgeInsets()
         
         override func layoutMarginsDidChange() {
             super.layoutMarginsDidChange()
@@ -45,7 +46,7 @@ internal struct LayoutGuidesObserverView: UIViewRepresentable {
         }
         
         private func update() {
-            guard let viewController = self.viewController else{ return }
+            guard let viewController = self.viewController else { return }
             let safeAreaInsets = viewController.view.safeAreaInsets.edgeInsets
             
             let layout = viewController.view.layoutMargins.edgeInsets

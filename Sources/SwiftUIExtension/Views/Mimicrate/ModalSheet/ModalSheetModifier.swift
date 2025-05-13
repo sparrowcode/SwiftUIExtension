@@ -101,6 +101,7 @@ struct ModalSheetModifier<ModalContent: View, Selection: Hashable>: ViewModifier
         .animation(.default, value: selection)
         .onChange(of: isPresented) { isPresented in
             if !isPresented {
+                dragOffset = .zero
                 delay(presentDimissDuration) {
                     self.onDismiss?()
                 }

@@ -24,8 +24,8 @@ public enum LayoutPadding {
 
 internal struct FitGuide: ViewModifier {
     
-    @State var layoutMargins: EdgeInsets = .init()
-    @State var readableMargins: EdgeInsets = .init()
+    @State var layoutMargins: EdgeInsets? = nil
+    @State var readableMargins: EdgeInsets? = nil
     
     private let guide: LayoutGuide
     private let padding: LayoutPadding
@@ -50,8 +50,8 @@ internal struct FitGuide: ViewModifier {
                                 }
                             )
                         )
-                        .contentMargins(.leading, layoutMargins.leading, for: .scrollContent)
-                        .contentMargins(.trailing, layoutMargins.trailing, for: .scrollContent)
+                        .contentMargins(.leading, layoutMargins?.leading, for: .scrollContent)
+                        .contentMargins(.trailing, layoutMargins?.trailing, for: .scrollContent)
                 } else {
                     content
                 }
@@ -64,8 +64,8 @@ internal struct FitGuide: ViewModifier {
                             }
                         )
                     )
-                    .padding(.leading, layoutMargins.leading)
-                    .padding(.trailing, layoutMargins.trailing)
+                    .padding(.leading, layoutMargins?.leading)
+                    .padding(.trailing, layoutMargins?.trailing)
             }
             
         case .readableMargins:
@@ -81,8 +81,8 @@ internal struct FitGuide: ViewModifier {
                                 }
                             )
                         )
-                        .contentMargins(.leading, readableMargins.leading, for: .scrollContent)
-                        .contentMargins(.trailing, readableMargins.trailing, for: .scrollContent)
+                        .contentMargins(.leading, readableMargins?.leading, for: .scrollContent)
+                        .contentMargins(.trailing, readableMargins?.trailing, for: .scrollContent)
                 } else {
                     content
                 }
@@ -95,8 +95,8 @@ internal struct FitGuide: ViewModifier {
                             }
                         )
                     )
-                    .padding(.leading, readableMargins.leading)
-                    .padding(.trailing, readableMargins.trailing)
+                    .padding(.leading, readableMargins?.leading)
+                    .padding(.trailing, readableMargins?.trailing)
             }
         }
     }
