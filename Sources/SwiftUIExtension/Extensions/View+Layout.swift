@@ -1,6 +1,6 @@
 import SwiftUI
 
-#warning("todo to del")
+#warning("todo: to del")
 /*extension View {
     
     public func horizontalSystemPadding(to view: HorizontalSystemPadding.PaddingView) -> some View {

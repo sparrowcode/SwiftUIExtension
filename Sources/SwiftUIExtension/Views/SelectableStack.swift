@@ -39,7 +39,18 @@ public struct SelectableStack<Data, Content>: View where Data : RandomAccessColl
             }
             #endif
         case .horizontal:
-            EmptyView()
+            HStack(spacing: space) {
+                if let data {
+                    ForEach(data) { element in
+                        content(element, selectedElement == element)
+                    }
+                }
+            }
+            #if os(iOS)
+            .onChange(of: selectedElement) { _ in
+                UIFeedbackGenerator.impactOccurred(.light)
+            }
+            #endif
         }
     }
     
